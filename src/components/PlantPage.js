@@ -37,7 +37,38 @@ function PlantPage() {
       .then(postedPlant => {
         setPlants([...plants, postedPlant])
       })
-    
+  }
+
+  function handleDeletePlant(target) {
+    fetch(url + target.id, {
+      method: "DELETE",
+    })
+      .then(resp => resp.json())
+      .then(deleted => {
+        setPlants(plants.filter(plant => plant.id !== target.id))
+      })
+  }
+
+  function handlePricePatch(id, newPrice) {
+    fetch(url + id, {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify({
+        price: newPrice
+      })
+    })
+      .then(resp => resp.json())
+      .then(updatedPlant => {
+        setPlants(plants.map(plant => {
+          if (plant.id === id) {
+            return updatedPlant
+          } else {
+            return plant
+          }
+        }))
+      })
   }
 
   //When prompted(executed in Search) filter current list with matching plants
@@ -49,7 +80,7 @@ function PlantPage() {
     <main>
       <NewPlantForm onPlantAdd={handleAddPlant}/>
       <Search filter={filter} onSearchChange={handleFilterChange}/>
-      <PlantList plants={filteredPlants}/>
+      <PlantList plants={filteredPlants} handleDeletePlant={handleDeletePlant} handlePricePatch={handlePricePatch}/>
     </main>
   );
 }
