@@ -45,7 +45,7 @@
     {
       "name": "Spider-plant",
       "image": "https://i0.wp.com/post.healthline.com/wp-content/uploads/2020/06/Spider-Plant-2.png?w=525",
-      "price": "12.99",
+      "price": 12.99,
       "id": 8
     }
   ]

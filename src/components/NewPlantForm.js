@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 
-const url = "http://localhost:6001/plants"
-
 function NewPlantForm({ onPlantAdd }) {
   const [name, setName] = useState("")
   const [image, setImage] = useState("")
@@ -10,29 +8,20 @@ function NewPlantForm({ onPlantAdd }) {
   function handleSubmit(event) {
     event.preventDefault()
 
-    if (name !== "") {
+    if (name !== "" || price !== "") {    //Plant needs name and price to be added
       const newPlant = {
         name: name,
         image: image,
-        price: price
+        price: parseFloat(price)
       }
 
-      fetch(url, {
-        method: "POST",
-        headers: {
-          "content-type": "application/json"
-        },
-        body: JSON.stringify(newPlant)
-      })
-        .then(resp => resp.json())
-        .then(postedPlant => {
-          onPlantAdd(postedPlant)
+      onPlantAdd(newPlant)
 
-          setName("")
-          setImage("")
-          setPrice("")
-        })
+      setName("")
+      setImage("")
+      setPrice("")
     }
+    // Preferably show error text or sometin'
   }
 
   return (
